@@ -30,3 +30,21 @@ WORKDIR /home/jovyan/WRF
 RUN git checkout release-v4.4.2
 ENV NETCDF=$DIR/NETCDF
 RUN echo "34" | ./configure && ./compile -j 4 em_real
+
+WORKDIR /WRFdependencies
+ADD https://www2.mmm.ucar.edu/wrf/OnLineTutorial/compile_tutorial/tar_files/jasper-1.900.1.tar.gz .
+RUN tar xzvf jasper-1.900.1.tar.gz && rm jasper-1.900.1.tar.gz
+WORKDIR /WRFdependencies/jasper-1.900.1
+RUN ./configure --prefix=$DIR/JASPER && make -j 4 install
+
+WORKDIR /home/jovyan
+RUN git clone https://github.com/wrf-model/WPS
+WORKDIR /home/jovyan/WPS
+RUN git checkout v4.4
+ENV JASPERLIB=$DIR/JASPER/lib JASPERINC=$DIR/JASPER/include
+RUN echo "3" | ./configure 
+# workaround for "gfortran: error: CONFIGURE_COMPAT_FLAGS: No such file or directory"
+RUN sed -i '/CONFIGURE_COMPAT_FLAGS/d' configure.wps
+RUN ./compile
+
+WORKDIR /home/jovyan
