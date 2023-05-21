@@ -24,7 +24,8 @@ RUN ./configure --prefix=$DIR/NETCDF --enable-shared && make -j 4 && make -j 4 i
 
 # copy the source code and compile
 # users may modify and config the source code in the dev environment
-COPY . /WRF/ 
+ARG SRC_DIR=WRF/
+COPY ${SRC_DIR}  /WRF/ 
 WORKDIR /WRF
 ENV NETCDF=$DIR/NETCDF
 RUN echo "34" | ./configure && ./compile -j 4 em_real
