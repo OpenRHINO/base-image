@@ -48,3 +48,5 @@ RUN sed -i '/CONFIGURE_COMPAT_FLAGS/d' configure.wps
 RUN ./compile
 
 WORKDIR /home/jovyan
+COPY run.dockerfile .
+COPY ldd.sh .
