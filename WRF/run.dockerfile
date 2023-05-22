@@ -9,14 +9,14 @@ RUN apt update && apt install -y \
 
 # prepare some dependencies that cannot be installed by apt
 WORKDIR /WRFdependencies
-ADD https://downloads.unidata.ucar.edu/netcdf-c/4.9.2/netcdf-c-4.9.2.tar.gz .
+ADD https://github.com/Unidata/netcdf-c/archive/refs/tags/v4.9.2.tar.gz netcdf-c-4.9.2.tar.gz
 RUN tar xzvf netcdf-c-4.9.2.tar.gz && rm netcdf-c-4.9.2.tar.gz
 WORKDIR /WRFdependencies/netcdf-c-4.9.2
 ENV DIR="/WRFdependencies"
 RUN ./configure --prefix=$DIR/NETCDF --disable-dap --disable-hdf5 --disable-libxml2 --enable-netcdf4 --enable-shared && make -j 4 && make -j 4 install
 
 WORKDIR /WRFdependencies
-ADD https://downloads.unidata.ucar.edu/netcdf-fortran/4.5.4/netcdf-fortran-4.5.4.tar.gz .
+ADD https://github.com/Unidata/netcdf-fortran/archive/refs/tags/v4.5.4.tar.gz netcdf-fortran-4.5.4.tar.gz
 RUN tar xzvf netcdf-fortran-4.5.4.tar.gz && rm netcdf-fortran-4.5.4.tar.gz
 WORKDIR /WRFdependencies/netcdf-fortran-4.5.4
 ENV LD_LIBRARY_PATH=$DIR/NETCDF/lib:$LD_LIBRARY_PATH CPPFLAGS="-I$DIR/NETCDF/include" LDFLAGS="-L$DIR/NETCDF/lib"
