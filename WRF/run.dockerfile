@@ -39,7 +39,7 @@ RUN bash ldd.sh wrf.exe
 FROM ubuntu:20.04
 
 COPY --from=builder /3rdParty/mpiexec/mpiexec.hydra /usr/bin/mpirun
-COPY --from=builder /3rdParty/mpiexec/hydra_pmi_proxy /usr/local/bin/hydra_pmi_proxy
+COPY --from=builder /3rdParty/mpiexec/hydra_pmi_proxy /usr/bin/hydra_pmi_proxy
 
 WORKDIR /app
 COPY --from=builder /WRF/main/wrf.exe /app/mpi-func
