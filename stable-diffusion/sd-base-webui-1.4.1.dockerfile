@@ -1,8 +1,7 @@
 FROM    nvidia/cuda:12.2.0-base-ubuntu20.04
-RUN     apt-get update
 ENV     DEBIAN_FRONTEND noninteractive
 ENV     TZ=Asia/Shanghai
-RUN     apt-get install -y wget git python3 python3-venv libgl1-mesa-glx libglib2.0-0
+RUN     apt-get update && apt-get install -y wget git python3 python3-venv libgl1-mesa-glx libglib2.0-0
 RUN     useradd -ms /bin/bash SD
 WORKDIR /home/SD
 USER    SD
